@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public float speed = 10;
     public float jumpForce = 200;
+    private int indexJump = 0;
 
     private bool isGrounded;
 
@@ -16,9 +17,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded)
+        if (isGrounded || indexJump == 0)
         {
             rb.AddForce(Vector3.up * jumpForce);
+            if (indexJump == 0)
+            {
+                indexJump = 1;
+            }
         }
     }
 
@@ -35,6 +40,10 @@ public class PlayerMovement : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+            if (indexJump == 1)
+            {
+                indexJump = 0;
+            }
         }
     }
 }
