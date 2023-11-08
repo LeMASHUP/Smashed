@@ -313,7 +313,7 @@ MonoBehaviour:
   inputManager: {fileID: 580413693}
   rb: {fileID: 580413691}
   speed: 10
-  jumpForce: 200
+  jumpForce: 500
 --- !u!54 &580413691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -339,7 +339,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &580413692
 CapsuleCollider:
@@ -556,7 +556,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.64, y: 4.21, z: -15.87}
+  m_LocalPosition: {x: -0.64, y: 8.83, z: -15.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
