@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,6 +14,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         inputManager.inputMaster.Movement.Jump.started += _ => Jump();
+    }
+
+    private void Update()
+    {
+        float forward = inputManager.inputMaster.Movement.Forward.ReadValue<float>();
+        Vector3 move = transform.right * forward;
+        move *= speed;
+        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
     }
 
     private void Jump()
