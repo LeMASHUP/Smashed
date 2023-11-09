@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded || indexJump == 0)
         {
+            rb.velocity = Vector3.zero;
             rb.AddForce(Vector3.up * jumpForce);
             if (indexJump == 0)
             {
