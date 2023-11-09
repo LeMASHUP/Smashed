@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         inputManager.inputMaster.Movement.Jump.started += _ => Jump();
+        inputManager.inputMaster.Movement.Crouch.started += _ => Crouch();
+        inputManager.inputMaster.Movement.Crouch.canceled += _ => CancelCrouch();
     }
 
     private void Update()
@@ -21,6 +23,16 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * forward;
         move *= speed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+    }
+
+    private void Crouch()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    private void CancelCrouch()
+    {
+       gameObject.GetComponent<Collider>().enabled = true;
     }
 
     private void Jump()
