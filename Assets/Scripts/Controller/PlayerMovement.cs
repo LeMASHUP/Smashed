@@ -26,6 +26,15 @@ public class PlayerMovement : MonoBehaviour
         move = transform.right * forward;
         move *= speed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+
+        if (forward > 0)
+        {
+            gameObject.transform.Find("Body").transform.rotation = Quaternion.LookRotation(Vector3.forward);
+        }
+        else if (forward < 0)
+        {
+            gameObject.transform.Find("Body").transform.rotation = Quaternion.LookRotation(Vector3.back);
+        }
     }
  /*
     private void Crouch()
