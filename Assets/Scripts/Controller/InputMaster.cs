@@ -53,6 +53,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SmallAttackMovement"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a49059a-5f55-4b9d-ab16-2f6acd22f346"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -176,6 +185,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a601c92e-d9eb-4373-b722-483c5d0e0463"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SmallAttackMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Movement_Forward = m_Movement.FindAction("Forward", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Crouch = m_Movement.FindAction("Crouch", throwIfNotFound: true);
+        m_Movement_SmallAttackMovement = m_Movement.FindAction("SmallAttackMovement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +272,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Forward;
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Crouch;
+    private readonly InputAction m_Movement_SmallAttackMovement;
     public struct MovementActions
     {
         private @InputMaster m_Wrapper;
@@ -258,6 +280,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Forward => m_Wrapper.m_Movement_Forward;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Crouch => m_Wrapper.m_Movement_Crouch;
+        public InputAction @SmallAttackMovement => m_Wrapper.m_Movement_SmallAttackMovement;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -276,6 +299,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
+            @SmallAttackMovement.started += instance.OnSmallAttackMovement;
+            @SmallAttackMovement.performed += instance.OnSmallAttackMovement;
+            @SmallAttackMovement.canceled += instance.OnSmallAttackMovement;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -289,6 +315,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
+            @SmallAttackMovement.started -= instance.OnSmallAttackMovement;
+            @SmallAttackMovement.performed -= instance.OnSmallAttackMovement;
+            @SmallAttackMovement.canceled -= instance.OnSmallAttackMovement;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -311,5 +340,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnForward(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnSmallAttackMovement(InputAction.CallbackContext context);
     }
 }

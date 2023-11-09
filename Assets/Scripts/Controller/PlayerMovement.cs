@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -6,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public float speed = 10;
     public float jumpForce = 200;
+    public int dashSpeed = 10;
+    public Vector3 move;
     private int indexJump = 0;
 
     private bool isGrounded;
@@ -13,18 +16,24 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         inputManager.inputMaster.Movement.Jump.started += _ => Jump();
-        inputManager.inputMaster.Movement.Crouch.started += _ => Crouch();
-        inputManager.inputMaster.Movement.Crouch.canceled += _ => CancelCrouch();
+        //inputManager.inputMaster.Movement.Crouch.started += _ => Crouch();
+        //inputManager.inputMaster.Movement.Crouch.canceled += _ => CancelCrouch();
+        inputManager.inputMaster.Movement.SmallAttackMovement.started += _ => SmallAttack();
     }
 
     private void Update()
     {
         float forward = inputManager.inputMaster.Movement.Forward.ReadValue<float>();
-        Vector3 move = transform.right * forward;
+        move = transform.right * forward;
         move *= speed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
     }
 
+    private void SmallAttack()
+    {
+        move *= (speed + dashSpeed);
+    }
+ /*
     private void Crouch()
     {
         gameObject.GetComponent<Collider>().enabled = false;
@@ -35,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
        gameObject.GetComponent<Collider>().enabled = true;
     }
 
+ */
     private void Jump()
     {
         if (isGrounded || indexJump == 0)
