@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
         inputManager.inputMaster.Movement.Jump.started += _ => Jump();
         //inputManager.inputMaster.Movement.Crouch.started += _ => Crouch();
         //inputManager.inputMaster.Movement.Crouch.canceled += _ => CancelCrouch();
-        inputManager.inputMaster.Movement.SmallAttackMovement.started += _ => SmallAttack();
     }
 
     private void Update()
@@ -27,11 +26,6 @@ public class PlayerMovement : MonoBehaviour
         move = transform.right * forward;
         move *= speed;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-    }
-
-    private void SmallAttack()
-    {
-        move *= (speed + dashSpeed);
     }
  /*
     private void Crouch()

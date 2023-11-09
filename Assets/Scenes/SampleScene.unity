@@ -314,6 +314,8 @@ MonoBehaviour:
   rb: {fileID: 580413691}
   speed: 10
   jumpForce: 500
+  dashSpeed: 10
+  move: {x: 0, y: 0, z: 0}
 --- !u!54 &580413691
 Rigidbody:
   m_ObjectHideFlags: 0
