@@ -124,6 +124,17 @@
                 },
                 {
                     "name": "",
+                    "id": "8d2855e0-af06-4354-bc39-fca15e8745f4",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c52c21b8-1c9d-4f53-b4c7-ec9c7fe878ca",
                     "path": "<Keyboard>/s",
                     "interactions": "",
