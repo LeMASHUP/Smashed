@@ -12,8 +12,13 @@ public class ArmsManager : MonoBehaviour
     [SerializeField] private GameObject bodyObject;
     [SerializeField] private float roty;
     [SerializeField] private bool isCombo = false;
+    [SerializeField] private bool canUppercut = true;
     [SerializeField]  private int comboMultiplier = 1;
+    private int smallPunchDamage = 1;
+    private int bigPunchDamage = 3;
     private LifePointManager lifePointManager;
+    private Rigidbody enemyRB;
+    private string statePunch = null;
     private void Start()
     {
         bodyObject = transform.Find("Body").gameObject;
@@ -24,6 +29,7 @@ public class ArmsManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isPunching = true;
+            statePunch = "SmallPunch";
             armObject = armsObjects[Random.Range(0, 2)];
             if (roty == 180)
             {
@@ -47,16 +53,58 @@ public class ArmsManager : MonoBehaviour
             }
         }
 
+        if (canUppercut == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                isPunching = true;
+                statePunch = "Uppercut";
+                armObject = armsObjects[Random.Range(0, 2)];
+                if (roty == 180)
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+                    armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+                }
+                else
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+                    armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                if (roty == 180)
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+                    armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                    canUppercut = false;
+                    Invoke("ResetUppercut", 3);
+                }
+                else
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+                    armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                    canUppercut = false;
+                    Invoke("ResetUppercut", 3);
+                }
+            }
+        }
+
         if (isCombo == false)
         {
             if (comboMultiplier > 1)
             {
-                Invoke("ResetCombo", 3);
+                Invoke("ResetCombo", 1.5f);
             }
         }
         else
         {
-            CancelInvoke();
+            CancelInvoke("ResetCombo");
         }
     }
 
@@ -65,26 +113,57 @@ public class ArmsManager : MonoBehaviour
         comboMultiplier = 1;
     }
 
+    private void ResetUppercut()
+    {
+        canUppercut = true;
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
-            if (lifePointManager.canBeHit == true)
+            enemyRB = collision.gameObject.GetComponent<Rigidbody>();
+            enemyRB.velocity = Vector3.zero;
+            if (statePunch == "SmallPunch")
             {
-                lifePointManager.lifePoint -= (1 * comboMultiplier);
-                comboMultiplier += 1;
-                isCombo = true;
-                if (roty == 180)
-                {
-                    collision.gameObject.GetComponent<Rigidbody>().AddForce(-250, 500, 0);
-                }
-                else
-                {
-                    collision.gameObject.GetComponent<Rigidbody>().AddForce(250, 500, 0);
-                }
-                lifePointManager.canBeHit = false;
+                SmallPunch();
             }
+            if (statePunch == "Uppercut")
+            {
+                Uppercut();
+            }
+        }
+    }
+
+    private void Uppercut()
+    {
+        if (lifePointManager.canBeHit == true)
+        {
+            lifePointManager.lifePoint -= (bigPunchDamage * comboMultiplier);
+            comboMultiplier += 1;
+            isCombo = true;
+            enemyRB.AddForce(0, 500, 0);
+            lifePointManager.canBeHit = false;
+        }
+    }
+
+    private void SmallPunch()
+    {
+        if (lifePointManager.canBeHit == true)
+        {
+            lifePointManager.lifePoint -= (smallPunchDamage * comboMultiplier);
+            comboMultiplier += 1;
+            isCombo = true;
+            if (roty == 180)
+            {
+                enemyRB.AddForce(-250, 500, 0);
+            }
+            else
+            {
+                enemyRB.AddForce(250, 500, 0);
+            }
+            lifePointManager.canBeHit = false;
         }
     }
 
