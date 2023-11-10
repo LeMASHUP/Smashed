@@ -11,36 +11,9 @@ public class ArmsManager : MonoBehaviour
     [SerializeField] private GameObject armObject;
     [SerializeField] private GameObject bodyObject;
     [SerializeField] private float roty;
+    [SerializeField] private bool isCombo = false;
+    [SerializeField]  private int comboMultiplier = 1;
     private LifePointManager lifePointManager;
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
-        {
-            lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
-            if (lifePointManager.canBeHit == true)
-            {
-                lifePointManager.lifePoint -= 10;
-                if (roty == 180)
-                {
-                    collision.gameObject.GetComponent<Rigidbody>().AddForce(-250, 500, 0);
-                }
-                else
-                {
-                    collision.gameObject.GetComponent<Rigidbody>().AddForce(250, 500, 0);
-                }
-                lifePointManager.canBeHit = false;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        if (isPunching == false && lifePointManager != null)
-        {
-            lifePointManager.canBeHit = true;
-        }
-    }
     private void Start()
     {
         bodyObject = transform.Find("Body").gameObject;
@@ -72,6 +45,55 @@ public class ArmsManager : MonoBehaviour
             {
                 armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             }
+        }
+
+        if (isCombo == false)
+        {
+            if (comboMultiplier > 1)
+            {
+                Invoke("ResetCombo", 3);
+            }
+        }
+        else
+        {
+            CancelInvoke();
+        }
+    }
+
+    private void ResetCombo()
+    {
+        comboMultiplier = 1;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
+        {
+            lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
+            if (lifePointManager.canBeHit == true)
+            {
+                lifePointManager.lifePoint -= (1 * comboMultiplier);
+                comboMultiplier += 1;
+                isCombo = true;
+                if (roty == 180)
+                {
+                    collision.gameObject.GetComponent<Rigidbody>().AddForce(-250, 500, 0);
+                }
+                else
+                {
+                    collision.gameObject.GetComponent<Rigidbody>().AddForce(250, 500, 0);
+                }
+                lifePointManager.canBeHit = false;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (isPunching == false && lifePointManager != null)
+        {
+            lifePointManager.canBeHit = true;
+            isCombo = false;
         }
     }
 }
