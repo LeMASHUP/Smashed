@@ -6,6 +6,7 @@ using UnityEngine;
 public class ArmsManager : MonoBehaviour
 {
     public GameObject[] armsObjects;
+    public bool isPunching = false;
     private Vector3 initialPos;
     [SerializeField] private GameObject armObject;
     [SerializeField] private GameObject bodyObject;
@@ -20,6 +21,7 @@ public class ArmsManager : MonoBehaviour
         roty = bodyObject.transform.eulerAngles.y;
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            isPunching = true;
             armObject = armsObjects[Random.Range(0, 2)];
             if (roty == 180)
             {
@@ -32,6 +34,7 @@ public class ArmsManager : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
+            isPunching = false;
             if (roty == 180)
             {
                 armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
