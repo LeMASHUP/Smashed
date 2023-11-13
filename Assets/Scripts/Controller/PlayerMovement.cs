@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public int dashSpeed = 10;
     public Vector3 move;
     private int indexJump = 0;
+    [SerializeField] private string inputNameHorizontal;
+    [SerializeField] private string inputNameVertical;
 
     private bool isGrounded;
 

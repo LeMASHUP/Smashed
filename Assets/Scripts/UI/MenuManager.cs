@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,26 +15,34 @@ public class MenuManager : MonoBehaviour
     {
         p1IsDead = LifePointManager.p1IsDead;
         p2IsDead = LifePointManager.p2IsDead;
-        if (p2IsDead == true)
+        if (p1Sprite != null && p2Sprite != null)
         {
-            p1Sprite.transform.position = new Vector3(1036.586f, 544.9369f, 0f);
-            p1Sprite.rectTransform.sizeDelta = new Vector2(653.1727f, 668.8226f);
+            if (p1IsDead == true)
+            {
+                p1Sprite.transform.position = new Vector3(175f, 172.29f, 0f);
+                p1Sprite.rectTransform.sizeDelta = new Vector2(300, 300);
 
-            p2Sprite.transform.position = new Vector3(168.23f, 173.26f, 0f);
-            p2Sprite.rectTransform.sizeDelta = new Vector2(213.54f, 346.53f);
-        }
-        else if (p1IsDead == true)
-        {
-            p1Sprite.transform.position = new Vector3(175f, 172.29f, 0f);
-            p1Sprite.rectTransform.sizeDelta = new Vector2(300, 300);
+                p2Sprite.transform.position = new Vector3(991.3214f, 572.9106f, 0f);
+                p2Sprite.rectTransform.sizeDelta = new Vector2(403.4643f, 667.6254f);
+            }
+            else if (p2IsDead == true)
+            {
+                p1Sprite.transform.position = new Vector3(1036.586f, 544.9369f, 0f);
+                p1Sprite.rectTransform.sizeDelta = new Vector2(653.1727f, 668.8226f);
 
-            p2Sprite.transform.position = new Vector3(991.3214f, 572.9106f, 0f);
-            p2Sprite.rectTransform.sizeDelta = new Vector2(403.4643f, 667.6254f);
+                p2Sprite.transform.position = new Vector3(168.23f, 173.26f, 0f);
+                p2Sprite.rectTransform.sizeDelta = new Vector2(213.54f, 346.53f);
+            }
         }
     }
     public void LoadArena()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void Credits()
+    {
+        SceneManager.LoadScene("CreditsMenu");
     }
 
     public void ReturnToMenu()
