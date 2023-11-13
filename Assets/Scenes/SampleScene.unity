@@ -486,9 +486,10 @@ GameObject:
   - component: {fileID: 580413691}
   - component: {fileID: 580413693}
   - component: {fileID: 580413690}
+  - component: {fileID: 580413695}
   - component: {fileID: 580413694}
   m_Layer: 2
-  m_Name: Player
+  m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -612,6 +613,20 @@ MonoBehaviour:
   isCombo: 0
   canUppercut: 1
   comboMultiplier: 1
+--- !u!114 &580413695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580413686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d457d7e08f7a6409e4a404e348c7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifePoint: 100
+  canBeHit: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +1038,7 @@ GameObject:
   - component: {fileID: 1233454084}
   - component: {fileID: 1233454089}
   m_Layer: 0
-  m_Name: Billy
+  m_Name: Player2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
