@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ArmsManager : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class ArmsManager : MonoBehaviour
     private Vector3 initialPos;
     [SerializeField] private GameObject armObject;
     [SerializeField] private GameObject bodyObject;
-    [SerializeField] private float roty;
+    private float roty;
     [SerializeField] private bool isCombo = false;
-    [SerializeField] private bool canUppercut = true;
+    private bool canUppercut = true;
     [SerializeField]  private int comboMultiplier = 1;
     private int smallPunchDamage = 1;
     private int bigPunchDamage = 3;
-    private LifePointManager lifePointManager;
+    [SerializeField] private LifePointManager lifePointManager;
     private Rigidbody enemyRB;
     private string statePunch = null;
     private void Start()
@@ -26,7 +27,23 @@ public class ArmsManager : MonoBehaviour
     void Update()
     {
         roty = bodyObject.transform.eulerAngles.y;
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+
+        if (isCombo == false)
+        {
+            if (comboMultiplier > 1)
+            {
+                Invoke("ResetCombo", 1.5f);
+            }
+        }
+        else
+        {
+            CancelInvoke("ResetCombo");
+        }
+    }
+
+    public void SmallPunchPlayer(InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
             isPunching = true;
             statePunch = "SmallPunch";
@@ -40,7 +57,7 @@ public class ArmsManager : MonoBehaviour
                 armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (context.canceled)
         {
             isPunching = false;
             if (roty == 180)
@@ -52,10 +69,14 @@ public class ArmsManager : MonoBehaviour
                 armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             }
         }
+    }
+
+    public void UppercutPlayer(InputAction.CallbackContext context)
+    {
 
         if (canUppercut == true)
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (context.started)
             {
                 isPunching = true;
                 statePunch = "Uppercut";
@@ -76,7 +97,7 @@ public class ArmsManager : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftControl))
+            if (context.canceled)
             {
                 if (roty == 180)
                 {
@@ -94,18 +115,6 @@ public class ArmsManager : MonoBehaviour
                 }
             }
         }
-
-        if (isCombo == false)
-        {
-            if (comboMultiplier > 1)
-            {
-                Invoke("ResetCombo", 1.5f);
-            }
-        }
-        else
-        {
-            CancelInvoke("ResetCombo");
-        }
     }
 
     private void ResetCombo()
@@ -116,24 +125,6 @@ public class ArmsManager : MonoBehaviour
     private void ResetUppercut()
     {
         canUppercut = true;
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
-        {
-            lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
-            enemyRB = collision.gameObject.GetComponent<Rigidbody>();
-            enemyRB.velocity = Vector3.zero;
-            if (statePunch == "SmallPunch")
-            {
-                SmallPunch();
-            }
-            if (statePunch == "Uppercut")
-            {
-                Uppercut();
-            }
-        }
     }
 
     private void Uppercut()
@@ -166,8 +157,26 @@ public class ArmsManager : MonoBehaviour
             lifePointManager.canBeHit = false;
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("touched");
+        if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
+        {
+            lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
+            enemyRB = collision.gameObject.GetComponent<Rigidbody>();
+            enemyRB.velocity = Vector3.zero;
+            if (statePunch == "SmallPunch")
+            {
+                SmallPunch();
+            }
+            if (statePunch == "Uppercut")
+            {
+                Uppercut();
+            }
+        }
+    }
 
-    private void OnTriggerExit(Collider collision)
+    private void OnCollisionExit(Collision collision)
     {
         if (isPunching == false && lifePointManager != null)
         {
