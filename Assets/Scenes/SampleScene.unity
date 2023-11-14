@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 26516639}
   - component: {fileID: 26516638}
   - component: {fileID: 26516637}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plateform1
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 108699958}
   - component: {fileID: 108699957}
   - component: {fileID: 108699956}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plateform4
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -779,7 +779,7 @@ GameObject:
   - component: {fileID: 1046237300}
   - component: {fileID: 1046237299}
   - component: {fileID: 1046237298}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plateform3
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -989,7 +989,7 @@ GameObject:
   - component: {fileID: 1608667289}
   - component: {fileID: 1608667288}
   - component: {fileID: 1608667287}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plateform2
   m_TagString: Ground
   m_Icon: {fileID: 0}

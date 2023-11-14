@@ -13,7 +13,9 @@ public class ArmsManager : MonoBehaviour
     [SerializeField] private GameObject bodyObject;
     private float roty;
     [SerializeField] private bool isCombo = false;
-    private bool canUppercut = true;
+    public bool isUppercut = false;
+    public bool isLowPunch = false;
+    [SerializeField] private bool canUppercut = true;
     [SerializeField]  private int comboMultiplier = 1;
     private int smallPunchDamage = 1;
     private int bigPunchDamage = 3;
@@ -45,29 +47,39 @@ public class ArmsManager : MonoBehaviour
     {
         if (context.started)
         {
-            isPunching = true;
-            statePunch = "SmallPunch";
-            armObject = armsObjects[Random.Range(0, 2)];
-            if (roty == 180)
+            if (!isUppercut)
             {
-                armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-            }
-            else
-            {
-                armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                isPunching = true;
+                isLowPunch = true;
+                statePunch = "SmallPunch";
+                armObject = armsObjects[Random.Range(0, 2)];
+                if (roty == 180)
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                }
+                else
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                }
             }
         }
         else if (context.canceled)
         {
-            isPunching = false;
-            if (roty == 180)
+            if (isLowPunch)
             {
-                armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                isPunching = false;
+                if (roty == 180)
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                    isLowPunch = false;
+                }
+                else
+                {
+                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+                    isLowPunch = false;
+                }
             }
-            else
-            {
-                armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-            }
+
         }
     }
 
@@ -78,40 +90,50 @@ public class ArmsManager : MonoBehaviour
         {
             if (context.started)
             {
-                isPunching = true;
-                statePunch = "Uppercut";
-                armObject = armsObjects[Random.Range(0, 2)];
-                if (roty == 180)
+                if (!isLowPunch)
                 {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
-                    armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+                    isUppercut = true;
+                    isPunching = true;
+                    statePunch = "Uppercut";
+                    armObject = armsObjects[Random.Range(0, 2)];
+                    if (roty == 180)
+                    {
+                        armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+                        armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+                        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                        gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+                    }
+                    else
+                    {
+                        armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+                        armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+                        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                        gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+                    }
                 }
-                else
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
-                    armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
-                }
+
             }
 
             if (context.canceled)
             {
-                if (roty == 180)
+                if (isUppercut)
                 {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
-                    armObject.transform.eulerAngles = new Vector3(0, 0, 0);
-                    canUppercut = false;
-                    Invoke("ResetUppercut", 3);
-                }
-                else
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
-                    armObject.transform.eulerAngles = new Vector3(0, 0, 0);
-                    canUppercut = false;
-                    Invoke("ResetUppercut", 3);
+                    if (roty == 180)
+                    {
+                        armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+                        armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                        canUppercut = false;
+                        isUppercut = false;
+                        Invoke("ResetUppercut", 3);
+                    }
+                    else
+                    {
+                        armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+                        armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                        canUppercut = false;
+                        isUppercut = false;
+                        Invoke("ResetUppercut", 3);
+                    }
                 }
             }
         }
@@ -157,7 +179,7 @@ public class ArmsManager : MonoBehaviour
             lifePointManager.canBeHit = false;
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
@@ -175,7 +197,7 @@ public class ArmsManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (isPunching == false && lifePointManager != null)
         {

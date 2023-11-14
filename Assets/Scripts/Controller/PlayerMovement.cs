@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speed = 5;
     [SerializeField] float jumpForce = 5;
     [SerializeField] bool isGrounded;
+    [SerializeField] bool canMove = true;
+    private Vector3 validDirection = Vector3.up;
+    private float contactThreshold = 30;
     private GameObject body;
 
     void Start()
@@ -67,24 +72,42 @@ public class PlayerMovement : MonoBehaviour
 
     public void MovePlayer()
     {
-        Vector2 direction = moveAction.ReadValue<Vector2>();
-        transform.position += new Vector3(direction.x, 0, direction.y) * speed * Time.deltaTime;
-        if (direction.x > 0)
+        if (canMove)
         {
-            body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
-        }
-        else if (direction.x < 0)
-        {
-            body.transform.rotation = Quaternion.LookRotation(Vector3.back);
+            Vector2 direction = moveAction.ReadValue<Vector2>();
+            transform.position += new Vector3(direction.x, 0, direction.y) * speed * Time.deltaTime;
+            if (direction.x > 0)
+            {
+                body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+            }
+            else if (direction.x < 0)
+            {
+                body.transform.rotation = Quaternion.LookRotation(Vector3.back);
+            }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        Vector3 normal = collision.contacts[0].normal;
+        Transform cube = collision.gameObject.transform;
         if (collision.transform.CompareTag("Ground"))
         {
-            isGrounded = true;
-            doubleJump = false;
+            for (int i=0; i<collision.contacts.Length; i++)
+            {
+                if (Vector3.Angle((collision.contacts[i].normal), validDirection) <= contactThreshold)
+                {
+                    isGrounded = true;
+                    canMove = true;
+                    doubleJump = false;
+                    break;
+                }
+                if (Vector3.Angle((collision.contacts[i].normal), Vector3.right) <= contactThreshold || Vector3.Angle((collision.contacts[i].normal), Vector3.left) <= contactThreshold)
+                {
+                    canMove = false;
+                    break;
+                }
+            }
         }
     }
 
@@ -93,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+            canMove = true;
         }
     }
 }
