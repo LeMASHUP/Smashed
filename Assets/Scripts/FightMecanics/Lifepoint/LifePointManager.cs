@@ -13,11 +13,11 @@ public class LifePointManager : MonoBehaviour
         if (lifePoint <= 0)
         {
             SceneManager.LoadScene("GameOverMenu");
-            if (gameObject.name == "Player1")
+            if (gameObject.name == "Player1(Clone)")
             {
                 p1IsDead = true;
             }
-            else if (gameObject.name == "Player2")
+            else if (gameObject.name == "Player2(Clone)")
             {
                 p2IsDead = true;
             }

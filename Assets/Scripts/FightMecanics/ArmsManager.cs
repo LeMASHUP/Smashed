@@ -148,18 +148,17 @@ public class ArmsManager : MonoBehaviour
             isCombo = true;
             if (roty == 180)
             {
-                enemyRB.AddForce(-250, 500, 0);
+                enemyRB.AddForce(-100, 250, 0);
             }
             else
             {
-                enemyRB.AddForce(250, 500, 0);
+                enemyRB.AddForce(100, 250, 0);
             }
             lifePointManager.canBeHit = false;
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("touched");
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();

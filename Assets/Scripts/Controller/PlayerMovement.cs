@@ -45,6 +45,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /*
+    public void MovePlayer()
+    {
+        Vector2 direction = moveAction.ReadValue<Vector2>();
+
+        Vector3 velocity = new Vector3(direction.x, 0, direction.y) * speed;
+
+        transform.GetComponent<Rigidbody>().velocity = velocity;
+
+        if (direction.x > 0)
+        {
+            body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+        }
+        else if (direction.x < 0)
+        {
+            body.transform.rotation = Quaternion.LookRotation(Vector3.back);
+        }
+    }
+    */
+
     public void MovePlayer()
     {
         Vector2 direction = moveAction.ReadValue<Vector2>();
