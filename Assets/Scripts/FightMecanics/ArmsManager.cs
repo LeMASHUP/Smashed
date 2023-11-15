@@ -49,37 +49,17 @@ public class ArmsManager : MonoBehaviour
         {
             if (!isUppercut)
             {
-                isPunching = true;
-                isLowPunch = true;
-                statePunch = "SmallPunch";
-                armObject = armsObjects[Random.Range(0, 2)];
-                if (roty == 180)
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-                }
-                else
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-                }
+                Punching();
+                Invoke("StopPunching", 0.5f);
             }
         }
         else if (context.canceled)
         {
+            CancelInvoke("StopPunching");
             if (isLowPunch)
             {
-                isPunching = false;
-                if (roty == 180)
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-                    isLowPunch = false;
-                }
-                else
-                {
-                    armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
-                    isLowPunch = false;
-                }
+                StopPunching();
             }
-
         }
     }
 
@@ -136,6 +116,37 @@ public class ArmsManager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void Punching()
+    {
+        isPunching = true;
+        isLowPunch = true;
+        statePunch = "SmallPunch";
+        armObject = armsObjects[Random.Range(0, 2)];
+        if (roty == 180)
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+        }
+        else
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+        }
+    }
+
+    private void StopPunching()
+    {
+        isPunching = false;
+        if (roty == 180)
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+            isLowPunch = false;
+        }
+        else
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
+            isLowPunch = false;
         }
     }
 
