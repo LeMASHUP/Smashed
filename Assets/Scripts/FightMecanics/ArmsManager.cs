@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +5,8 @@ public class ArmsManager : MonoBehaviour
 {
     public GameObject[] armsObjects;
     public bool isPunching = false;
+    public float punchHold = 0.5f;
+    public float uppercutHold = 0.5f;
     private Vector3 initialPos;
     [SerializeField] private GameObject armObject;
     [SerializeField] private GameObject bodyObject;
@@ -50,7 +49,8 @@ public class ArmsManager : MonoBehaviour
             if (!isUppercut)
             {
                 Punching();
-                Invoke("StopPunching", 0.5f);
+                armObject.GetComponent<Collider>().enabled = true;
+                Invoke("StopPunching", punchHold);
             }
         }
         else if (context.canceled)
@@ -73,7 +73,7 @@ public class ArmsManager : MonoBehaviour
                 if (!isLowPunch)
                 {
                     StartUppercut();
-                    Invoke("StopUppercut", 0.5f);
+                    Invoke("StopUppercut", uppercutHold);
                 }
 
             }
@@ -112,11 +112,13 @@ public class ArmsManager : MonoBehaviour
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             isLowPunch = false;
+            armObject.GetComponent<Collider>().enabled = true;
         }
         else
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             isLowPunch = false;
+            armObject.GetComponent<Collider>().enabled = true;
         }
     }
 
@@ -204,7 +206,7 @@ public class ArmsManager : MonoBehaviour
             lifePointManager.canBeHit = false;
         }
     }
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
@@ -222,7 +224,7 @@ public class ArmsManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    private void OnCollisionExit(Collision collision)
     {
         if (isPunching == false && lifePointManager != null)
         {

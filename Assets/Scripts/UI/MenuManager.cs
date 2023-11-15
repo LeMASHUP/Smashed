@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadArena()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Arena1");
     }
 
     public void Credits()

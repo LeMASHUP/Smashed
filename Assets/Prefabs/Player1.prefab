@@ -97,9 +97,9 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -202,9 +202,9 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -328,6 +328,7 @@ MonoBehaviour:
   speed: 10
   jumpForce: 12
   isGrounded: 0
+  canMove: 1
 --- !u!114 &59028540785631626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,9 +345,14 @@ MonoBehaviour:
   - {fileID: 1816246669521864889}
   - {fileID: 3379156727288774150}
   isPunching: 0
+  punchHold: 0.1
+  uppercutHold: 0.5
   armObject: {fileID: 0}
   bodyObject: {fileID: 0}
   isCombo: 0
+  isUppercut: 0
+  isLowPunch: 0
+  canUppercut: 1
   comboMultiplier: 1
   lifePointManager: {fileID: 0}
 --- !u!114 &2871672740820644132
