@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 891072774614100805}
   - component: {fileID: 8200789820089732253}
   - component: {fileID: 2982814969090064131}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm1
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 6240034750431068496}
   - component: {fileID: 7737353285691747927}
   - component: {fileID: 3578110323245880325}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm2
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -225,7 +225,8 @@ GameObject:
   - component: {fileID: 3016765702065864921}
   - component: {fileID: 59028540785631626}
   - component: {fileID: 2871672740820644132}
-  m_Layer: 2
+  - component: {fileID: -1788959108643129701}
+  m_Layer: 6
   m_Name: Player1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -297,7 +298,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &8300111718926596230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +438,18 @@ MonoBehaviour:
   m_DefaultActionMap: Default
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-1788959108643129701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145931451844712958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f278f67c07ac3da428e62be38f0c0182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6914090740080896714
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +461,7 @@ GameObject:
   - component: {fileID: 4405641524804840782}
   - component: {fileID: 3190418793926626053}
   - component: {fileID: 8243836429265581841}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

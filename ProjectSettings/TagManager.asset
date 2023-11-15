@@ -13,8 +13,8 @@ TagManager:
   - ExcludeArms
   - Water
   - UI
-  - 
-  - 
+  - ExcludePlayer1
+  - ExcludePlayer2
   - 
   - 
   - 

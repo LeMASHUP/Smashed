@@ -5,9 +5,14 @@ public class LifePointManager : MonoBehaviour
 {
     public int lifePoint = 100;
     public bool canBeHit = true;
-    public static bool p1IsDead = false;
-    public static bool p2IsDead = false;
+    public static bool p1IsDead;
+    public static bool p2IsDead;
 
+    private void Awake()
+    {
+        p1IsDead = false;
+        p2IsDead = false;
+    }
     private void Update()
     {
         if (lifePoint <= 0)

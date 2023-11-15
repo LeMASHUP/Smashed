@@ -49,7 +49,6 @@ public class ArmsManager : MonoBehaviour
             if (!isUppercut)
             {
                 Punching();
-                armObject.GetComponent<Collider>().enabled = true;
                 Invoke("StopPunching", punchHold);
             }
         }
@@ -112,13 +111,11 @@ public class ArmsManager : MonoBehaviour
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             isLowPunch = false;
-            armObject.GetComponent<Collider>().enabled = true;
         }
         else
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
             isLowPunch = false;
-            armObject.GetComponent<Collider>().enabled = true;
         }
     }
 
@@ -210,6 +207,7 @@ public class ArmsManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
+            Debug.Log(statePunch);
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
             enemyRB = collision.gameObject.GetComponent<Rigidbody>();
             enemyRB.velocity = Vector3.zero;
