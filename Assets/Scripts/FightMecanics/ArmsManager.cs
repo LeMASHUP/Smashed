@@ -72,48 +72,18 @@ public class ArmsManager : MonoBehaviour
             {
                 if (!isLowPunch)
                 {
-                    isUppercut = true;
-                    isPunching = true;
-                    statePunch = "Uppercut";
-                    armObject = armsObjects[Random.Range(0, 2)];
-                    if (roty == 180)
-                    {
-                        armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
-                        armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-                        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                        gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
-                    }
-                    else
-                    {
-                        armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
-                        armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-                        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                        gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
-                    }
+                    StartUppercut();
+                    Invoke("StopUppercut", 0.5f);
                 }
 
             }
 
             if (context.canceled)
             {
+                CancelInvoke("StopUppercut");
                 if (isUppercut)
                 {
-                    if (roty == 180)
-                    {
-                        armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
-                        armObject.transform.eulerAngles = new Vector3(0, 0, 0);
-                        canUppercut = false;
-                        isUppercut = false;
-                        Invoke("ResetUppercut", 3);
-                    }
-                    else
-                    {
-                        armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
-                        armObject.transform.eulerAngles = new Vector3(0, 0, 0);
-                        canUppercut = false;
-                        isUppercut = false;
-                        Invoke("ResetUppercut", 3);
-                    }
+                    StopUppercut();
                 }
             }
         }
@@ -149,6 +119,50 @@ public class ArmsManager : MonoBehaviour
             isLowPunch = false;
         }
     }
+
+    private void StartUppercut()
+    {
+        isUppercut = true;
+        isPunching = true;
+        statePunch = "Uppercut";
+        armObject = armsObjects[Random.Range(0, 2)];
+        if (roty == 180)
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+            armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+        }
+        else
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
+            armObject.transform.eulerAngles = new Vector3(0, 0, 90);
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+        }
+    }
+
+    private void StopUppercut()
+    {
+        if (roty == 180)
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+            armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+            canUppercut = false;
+            isUppercut = false;
+            Invoke("ResetUppercut", 3);
+        }
+        else
+        {
+            armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
+            armObject.transform.eulerAngles = new Vector3(0, 0, 0);
+            canUppercut = false;
+            isUppercut = false;
+            Invoke("ResetUppercut", 3);
+        }
+    }
+
+
 
     private void ResetCombo()
     {
