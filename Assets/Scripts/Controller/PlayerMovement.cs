@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerInput input;
     InputAction moveAction;
     InputAction jumpAction;
+    [SerializeField] Vector2 direction;
     [SerializeField] bool doubleJump;
     [SerializeField] float speed = 5;
     [SerializeField] float jumpForce = 5;
@@ -16,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool canMove = true;
     private Vector3 validDirection = Vector3.up;
     private float contactThreshold = 30;
+    private float maxSpeed = 15;
     private GameObject body;
 
     void Start()
@@ -72,10 +75,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void MovePlayer()
     {
+        direction = moveAction.ReadValue<Vector2>(); 
+      
         if (canMove)
         {
-            Vector2 direction = moveAction.ReadValue<Vector2>();
-            transform.position += new Vector3(direction.x, 0, direction.y) * speed * Time.deltaTime;
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.AddForce(direction * speed);
+
+            Debug.Log(rb.velocity);
             if (direction.x > 0)
             {
                 body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
@@ -85,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
                 body.transform.rotation = Quaternion.LookRotation(Vector3.back);
             }
         }
+        
     }
 
     private void OnCollisionEnter(Collision collision)

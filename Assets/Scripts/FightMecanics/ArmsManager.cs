@@ -126,12 +126,12 @@ public class ArmsManager : MonoBehaviour
         isPunching = true;
         statePunch = "Uppercut";
         armObject = armsObjects[Random.Range(0, 2)];
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (roty == 180)
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
             armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 3);
         }
         else
         {
