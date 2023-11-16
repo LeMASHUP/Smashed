@@ -1,7 +1,5 @@
 using UnityEngine;
-using Unity.UI;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class SliderController : MonoBehaviour
 {

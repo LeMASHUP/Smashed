@@ -7,6 +7,7 @@ public class ArmsManager : MonoBehaviour
     public bool isPunching = false;
     public float punchHold = 0.5f;
     public float uppercutHold = 0.5f;
+    [SerializeField] private int resetTimer = 3;
     private Vector3 initialPos;
     [SerializeField] private GameObject armObject;
     [SerializeField] private GameObject bodyObject;
@@ -149,7 +150,7 @@ public class ArmsManager : MonoBehaviour
             armObject.transform.eulerAngles = new Vector3(0, 0, 0);
             canUppercut = false;
             isUppercut = false;
-            Invoke("ResetUppercut", 3);
+            Invoke("ResetUppercut", resetTimer);
         }
         else
         {
@@ -157,7 +158,7 @@ public class ArmsManager : MonoBehaviour
             armObject.transform.eulerAngles = new Vector3(0, 0, 0);
             canUppercut = false;
             isUppercut = false;
-            Invoke("ResetUppercut", 3);
+            Invoke("ResetUppercut", resetTimer);
         }
     }
 
@@ -170,6 +171,7 @@ public class ArmsManager : MonoBehaviour
 
     private void ResetUppercut()
     {
+        statePunch = null;
         canUppercut = true;
     }
 
@@ -181,7 +183,6 @@ public class ArmsManager : MonoBehaviour
             comboMultiplier += 1;
             isCombo = true;
             enemyRB.velocity = Vector3.zero;
-            Debug.Log("goUpper");
             enemyRB.AddForce(0, 500, 0);
             lifePointManager.canBeHit = false;
         }
