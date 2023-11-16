@@ -131,14 +131,13 @@ public class ArmsManager : MonoBehaviour
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x - 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
             armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-            rb.velocity = new Vector2(rb.velocity.x, 3);
+            rb.velocity = new Vector2(rb.velocity.x, 15);
         }
         else
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y + 1.54f, armObject.transform.position.z);
             armObject.transform.eulerAngles = new Vector3(0, 0, 90);
-            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            gameObject.GetComponent<Rigidbody>().AddForce(0, 250, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 15);
         }
     }
 

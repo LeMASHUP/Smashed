@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 3230181316522197491}
   - component: {fileID: 1305081812764868852}
   - component: {fileID: 8056298283774283637}
-  - component: {fileID: 6633755530309160498}
+  - component: {fileID: 6693218300353357640}
   m_Layer: 7
   m_Name: Player2
   m_TagString: Player
@@ -302,12 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac83ee642539f9459fb371b05835c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
-  doubleJump: 0
-  speed: 5
+  speed: 20
   jumpForce: 12
-  isGrounded: 0
-  canMove: 1
 --- !u!114 &3230181316522197491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,8 +426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifePointManager: {fileID: 0}
---- !u!65 &6633755530309160498
-BoxCollider:
+--- !u!136 &6693218300353357640
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -444,13 +440,15 @@ BoxCollider:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: -2
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.2, y: 4.18, z: 2.2736726}
-  m_Center: {x: 0, y: 0, z: -0.0016100407}
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5695481338700782929
 GameObject:
   m_ObjectHideFlags: 0

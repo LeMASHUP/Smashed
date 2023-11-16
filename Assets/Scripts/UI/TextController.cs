@@ -12,7 +12,7 @@ public class TextController : MonoBehaviour
         text = GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (player == null)

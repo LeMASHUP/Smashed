@@ -10,16 +10,15 @@ public class PlayerMovement : MonoBehaviour
     PlayerInput input;
     InputAction moveAction;
     InputAction jumpAction;
-    [SerializeField] Vector2 direction;
-    [SerializeField] bool doubleJump;
-    [SerializeField] float speed = 5;
-    [SerializeField] float jumpForce = 5;
-    [SerializeField] bool isGrounded;
-    [SerializeField] bool canMove = true;
+    Vector2 direction;
+    bool doubleJump;
+    bool isGrounded;
+    bool canMove = true;
     private Vector3 validDirection = Vector3.up;
     private float contactThreshold = 30;
-    private float maxSpeed = 15;
     private GameObject body;
+    public float speed = 5;
+    public float jumpForce = 5;
 
     void Start()
     {
@@ -80,9 +79,8 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
         {
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            rb.AddForce(direction * speed);
+            rb.velocity =  new Vector3((direction.x * speed), rb.velocity.y);
 
-            Debug.Log(rb.velocity);
             if (direction.x > 0)
             {
                 body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
