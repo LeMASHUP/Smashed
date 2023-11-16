@@ -11,6 +11,8 @@ public class SliderController : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        gameObject.transform.GetChild(1).gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,6 +26,8 @@ public class SliderController : MonoBehaviour
         if (player != null)
         {
             slider.value = player.GetComponent<LifePointManager>().lifePoint;
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 }
