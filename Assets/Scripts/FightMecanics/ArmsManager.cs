@@ -180,6 +180,8 @@ public class ArmsManager : MonoBehaviour
             lifePointManager.lifePoint -= (bigPunchDamage * comboMultiplier);
             comboMultiplier += 1;
             isCombo = true;
+            enemyRB.velocity = Vector3.zero;
+            Debug.Log("goUpper");
             enemyRB.AddForce(0, 500, 0);
             lifePointManager.canBeHit = false;
         }
@@ -207,7 +209,6 @@ public class ArmsManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
-            Debug.Log(statePunch);
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
             enemyRB = collision.gameObject.GetComponent<Rigidbody>();
             enemyRB.velocity = Vector3.zero;
