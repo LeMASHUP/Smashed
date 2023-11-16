@@ -19,6 +19,7 @@ public class ArmsManager : MonoBehaviour
     private int smallPunchDamage = 1;
     private int bigPunchDamage = 3;
     [SerializeField] private LifePointManager lifePointManager;
+    private PlayerMovement playerMovement;
     private Rigidbody enemyRB;
     private string statePunch = null;
     private void Start()
@@ -178,6 +179,8 @@ public class ArmsManager : MonoBehaviour
         if (lifePointManager.canBeHit == true)
         {
             lifePointManager.lifePoint -= (bigPunchDamage * comboMultiplier);
+            playerMovement.CanMove = false;
+            playerMovement.Invoke("ResetCanMove", 1.5f);
             comboMultiplier += 1;
             isCombo = true;
             enemyRB.AddForce(0, 500, 0);
@@ -209,6 +212,7 @@ public class ArmsManager : MonoBehaviour
         {
             Debug.Log(statePunch);
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
+            playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             enemyRB = collision.gameObject.GetComponent<Rigidbody>();
             enemyRB.velocity = Vector3.zero;
             if (statePunch == "SmallPunch")

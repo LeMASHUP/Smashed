@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerInput input;
     InputAction moveAction;
     InputAction jumpAction;
+    public bool CanMove = true;
     [SerializeField] bool doubleJump;
     [SerializeField] float speed = 5;
     [SerializeField] float jumpForce = 5;
@@ -28,10 +30,22 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+        {
+            input.enabled = false;
+        }
+        else
+        {
+            input.enabled = true;
+        }
         MovePlayer();
         JumpPlayer();
     }
 
+    public void ResetCanMove()
+    {
+        CanMove = true;
+    }
     public void JumpPlayer()
     {
         if (jumpAction.triggered)
