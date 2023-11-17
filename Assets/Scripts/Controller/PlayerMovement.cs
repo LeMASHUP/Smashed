@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,10 +9,11 @@ public class PlayerMovement : MonoBehaviour
     Vector2 direction;
     bool doubleJump;
     bool isGrounded;
-    bool canMove = true;
+    public bool canMove = true;
     private Vector3 validDirection = Vector3.up;
     private float contactThreshold = 30;
     private GameObject body;
+    private GameObject playerModel;
     public float speed = 5;
     public float jumpForce = 5;
 
@@ -26,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction = input.actions.FindAction("Move");
         jumpAction = input.actions.FindAction("Jump");
         body = transform.Find("Body").gameObject;
+        playerModel = transform.Find("Williams").gameObject;
     }
 
     void Update()
@@ -52,25 +50,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /*
-    public void MovePlayer()
+    public void ResetMove()
     {
-        Vector2 direction = moveAction.ReadValue<Vector2>();
-
-        Vector3 velocity = new Vector3(direction.x, 0, direction.y) * speed;
-
-        transform.GetComponent<Rigidbody>().velocity = velocity;
-
-        if (direction.x > 0)
-        {
-            body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
-        }
-        else if (direction.x < 0)
-        {
-            body.transform.rotation = Quaternion.LookRotation(Vector3.back);
-        }
+        canMove = true;
     }
-    */
 
     public void MovePlayer()
     {
@@ -84,10 +67,12 @@ public class PlayerMovement : MonoBehaviour
             if (direction.x > 0)
             {
                 body.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+                playerModel.transform.rotation = Quaternion.LookRotation(Vector3.right);
             }
             else if (direction.x < 0)
             {
                 body.transform.rotation = Quaternion.LookRotation(Vector3.back);
+                playerModel.transform.rotation = Quaternion.LookRotation(Vector3.left);
             }
         }
         

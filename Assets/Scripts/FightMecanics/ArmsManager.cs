@@ -22,9 +22,13 @@ public class ArmsManager : MonoBehaviour
     [SerializeField] private LifePointManager lifePointManager;
     private Rigidbody enemyRB;
     private string statePunch = null;
+    private Animator animator;
+    public string[] animsState;
+    string animState;
     private void Start()
     {
         bodyObject = transform.Find("Body").gameObject;
+        animator = transform.Find("Williams").GetComponent<Animator>();
     }
     void Update()
     {
@@ -91,10 +95,12 @@ public class ArmsManager : MonoBehaviour
 
     private void Punching()
     {
-        isPunching = true;
+        int armIndex = Random.Range(0, 2);
+        //animState = animsState[armIndex];
+        animator.SetBool("isPunching", true);
         isLowPunch = true;
         statePunch = "SmallPunch";
-        armObject = armsObjects[Random.Range(0, 2)];
+        armObject = armsObjects[armIndex];
         if (roty == 180)
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x - 1.54f, armObject.transform.position.y, armObject.transform.position.z);
@@ -108,6 +114,7 @@ public class ArmsManager : MonoBehaviour
     private void StopPunching()
     {
         isPunching = false;
+        animator.SetBool("isPunching", false);
         if (roty == 180)
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x + 1.54f, armObject.transform.position.y, armObject.transform.position.z);
@@ -125,6 +132,7 @@ public class ArmsManager : MonoBehaviour
         isUppercut = true;
         isPunching = true;
         statePunch = "Uppercut";
+        animator.SetBool("isUppercut", true);
         armObject = armsObjects[Random.Range(0, 2)];
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (roty == 180)
@@ -143,6 +151,7 @@ public class ArmsManager : MonoBehaviour
 
     private void StopUppercut()
     {
+        animator.SetBool("isUppercut", false);
         if (roty == 180)
         {
             armObject.transform.position = new Vector3(armObject.transform.position.x + 1.1f, armObject.transform.position.y - 1.54f, armObject.transform.position.z);
@@ -209,9 +218,12 @@ public class ArmsManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && collision.gameObject != gameObject && isPunching == true)
         {
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>(); 
             lifePointManager = collision.gameObject.GetComponent<LifePointManager>();
             enemyRB = collision.gameObject.GetComponent<Rigidbody>();
             enemyRB.velocity = Vector3.zero;
+            playerMovement.canMove = false;
+            playerMovement.Invoke("ResetMove", 1.5f);
             if (statePunch == "SmallPunch")
             {
                 SmallPunch();
